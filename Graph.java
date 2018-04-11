@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//import Graph.Graphnode;
+
 
 /**
- * Undirected and unweighted graph implementation
+ * Undirected and unweighted graph implementation using a generic Vertex class which 
+ * stores the data associated to each vertex of the graph, as well as the data of each 
+ * adjacent vertex; and an Edge class which stores a pair of Vertex objects.
  * 
  * @param <E> type of a vertex
  * 
@@ -19,16 +21,20 @@ public class Graph<E> implements GraphADT<E> {
     
 	
 	class Vertex<E> {
-
-		private ArrayList<Edge> neighborhood;
-		private ArrayList<E> neighbors;
-
-		private E label;
 		
+		//ArrayList to store data of all adjacent vertices
+		private ArrayList<E> neighbors;
+		
+		//Class field for the data associated to this vertex
+		final private E label;
+		
+		/**
+		 * Vertex constructor
+		 * @param label The data associated to this vertex object
+		 */
 		public Vertex(E label) {
 			
 			this.label = label;
-			this.neighborhood = new ArrayList<Edge>();
 			this.neighbors = new ArrayList<E>();
 		}
 		
@@ -40,52 +46,17 @@ public class Graph<E> implements GraphADT<E> {
 			
 			neighbors.add(newVertex);
 		}
-		
-		public void addNeighbor(Edge edge) {
-			
-			if (this.neighborhood.contains(edge)) {
-				return;
-			}
-			
-			neighborhood.add(edge);
-		}
+
 		
 		public boolean hasNeighbor(E newVertex) {
-			
-			
-			
+
 			return this.neighbors.contains(newVertex);
-			
-		}
-		
-		public boolean hasNeighbor(Edge edge) {
-			
-			return this.neighborhood.contains(edge);
-			
-		}
-		
-		
-		public Edge getNeighbor(int index) {
-			
-			return this.neighborhood.get(index);
 			
 		}
 		
 		public void removeNeighbor(E vertex) {
 			
 			this.neighbors.remove(vertex);
-			
-		}
-		
-		public Edge removeNeighbor(int index) {
-			
-			return this.neighborhood.remove(index);
-			
-		}
-		
-		public void removeNeighbor(Edge edge) {
-			
-			this.neighborhood.remove(edge);
 			
 		}
 		
@@ -126,12 +97,6 @@ public class Graph<E> implements GraphADT<E> {
 				Vertex<E> otherVertex = (Vertex<E>) object;
 				return this.label.equals(otherVertex.label);
 			}
-			
-		}
-		
-		public ArrayList<Edge> getNeighborhood() {
-			
-			return new ArrayList<Edge>(this.neighborhood);
 			
 		}
 		
@@ -295,8 +260,7 @@ public class Graph<E> implements GraphADT<E> {
     		
     	}
     	
-    	
-    	else if(v1.hasNeighbor(newEdge) || v2.hasNeighbor(newEdge)){
+    	else if(v1.hasNeighbor(vertex1) || v2.hasNeighbor(vertex2)){
     		
     		return false;
     		
@@ -304,20 +268,10 @@ public class Graph<E> implements GraphADT<E> {
 
     	edges.put(newEdge.hashCode(), newEdge);
     	
-    	//This is original code but may be deleted to use code below instead, currently this is not 
-    	//being used
-    	
-    	//v1.addNeighbor(newEdge);
-    	//v2.addNeighbor(newEdge);
-    	
-    	/////////////////////////////////////////////////////////////////
-    	
-    	//Trying out new code with E arguments for Vertex class methods
     	
     	v1.addNeighbor(vertex2);
     	v2.addNeighbor(vertex1);
     	
-    	/////////////////////////////////////////////////////////////////////
     	
         return true;
     }    
@@ -337,16 +291,6 @@ public class Graph<E> implements GraphADT<E> {
     	Vertex<E> v1 = vertices.get(vertex1.hashCode());
     	Vertex<E> v2 = vertices.get(vertex2.hashCode());
     	Edge newEdge = new Edge(v1,v2);
-    	
-    	//TODO: Need to write if statement to catch case where v1 and v2 exist but they are not adjacent, i.e. 
-    	// they do not share an edge.
-    	
-    	//This code is not being used at the moment
-
-    	//v1.removeNeighbor(newEdge);
-    	//v2.removeNeighbor(newEdge);
-    	
-    	////////////////////////////////////////////////
     	
     	v1.removeNeighbor(vertex2);
     	v2.removeNeighbor(vertex1);
@@ -369,17 +313,13 @@ public class Graph<E> implements GraphADT<E> {
     		return false;
     	}
     	
-    	//System.out.println(vertices.containsKey(vertex1.hashCode()));
+    
     	
     	Vertex<E> v = vertices.get(vertex1.hashCode());
     	
     	if (v.hasNeighbor(vertex2)) {
     		return true;
     	}
-    	
-    	//Edge e = edges.get(vertex1.hashCode() + vertex2.hashCode());
-    	//Vertex<E> v = vertices.get(vertex1.hashCode());
-    	//Vertex<E> v2 = vertices.get(vertex2.hashCode());
     
     	
         return false;
