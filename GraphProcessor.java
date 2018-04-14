@@ -61,11 +61,51 @@ public class GraphProcessor {
      * If a pair is adjacent, adds an undirected and unweighted edge between the pair of vertices in the graph.
      * 
      * @param filepath file path to the dictionary
-     * @return Integer the number of vertices (words) added
+     * @return Integer the number of vertices (words) added. Will return -1 if an error occurs.
      */
     public Integer populateGraph(String filepath) {
-        return 0;
+        
+        Stream<String> wordStream = null;
+        
+        //Get stream
+        try {
+            wordStream = getWordStream(filepath);
+        } catch (IOException e) {
+            return -1;
+        }
+        
+        //Add each string in the stream into the graph
+        wordStream.forEach(graph::addVertex);
+        
+        //populate edges 
+        Iterable<String> vertecies = graph.getAllVertices();
+        int size = 0;
+        for (String vertex1 : vertecies) {
+            for (String vertex2 : vertecies) {
+                graph.addEdge(vertex1, vertex2);
+            }
+            size++;
+        }
+        
+        return size;
     
+    }
+    
+    /**
+     * This method retrieves a stream of the words in the file
+     * 
+     * @param filepath path to the file
+     * @return a word stream containing non null, non empty values
+     * @throws IOException
+     */
+    private Stream<String> getWordStream(String filepath) throws IOException {
+        
+        Stream<String> wordStream = Files.lines(Paths.get(filepath))
+                .filter(x -> x != null && !x.equals("") )
+                .map(String::trim)
+                .map(String::toUpperCase);
+        
+        return wordStream;
     }
 
     
