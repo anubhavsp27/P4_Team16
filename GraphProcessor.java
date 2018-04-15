@@ -1,9 +1,12 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -61,7 +64,7 @@ public class GraphProcessor {
      * If a pair is adjacent, adds an undirected and unweighted edge between the pair of vertices in the graph.
      * 
      * @param filepath file path to the dictionary
-     * @return Integer the number of vertices (words) added. Will return -1 if an error occurs.
+     * @return Integer the number of vertices (words) added
      */
     public Integer populateGraph(String filepath) {
         
@@ -107,25 +110,8 @@ public class GraphProcessor {
         
         return wordStream;
     }
-
     
-    /**
-     * Gets the list of words that create the shortest path between word1 and word2
-     * 
-     * Example: Given a dictionary,
-     *             cat
-     *             rat
-     *             hat
-     *             neat
-     *             wheat
-     *             kit
-     *  shortest path between cat and wheat is the following list of words:
-     *     [cat, hat, heat, wheat]
-     * 
-     * @param word1 first word
-     * @param word2 second word
-     * @return List<String> list of the words
-     */
+    
     public List<String> getShortestPath(String word1, String word2) {
         return null;
     
@@ -152,12 +138,71 @@ public class GraphProcessor {
         return null;
     }
     
+    
+    class DijkstraNode implements Comparable<DijkstraNode> {
+    	
+    	private DijkstraNode predecessor;
+    	private String associatedString;
+    	private int cost;
+    	private boolean visited;
+    	
+    	DijkstraNode(DijkstraNode predecessor, String string, int cost, boolean visited) {
+    		
+    		this.visited = false;
+    		this.predecessor = predecessor;
+    		this.associatedString = string;
+    		this.cost = cost;
+    	}
+    	
+		DijkstraNode getPred() {
+			return predecessor;
+		}
+
+		@Override
+		public int compareTo(DijkstraNode other) {
+			return Integer.compare(other.cost, cost);
+		}
+    }
     /**
      * Computes shortest paths and distances between all possible pairs of vertices.
      * This method is called after every set of updates in the graph to recompute the path information.
      * Any shortest path algorithm can be used (Djikstra's or Floyd-Warshall recommended).
      */
-    public void shortestPathPrecomputation() {
-    
+    public void shortestPathPrecomputation() { 
+    	//Nested HashMap to calculate shortest distances between all combinations
+    	HashMap<String, HashMap<String, Object>> outerHash = new HashMap<String, HashMap<String, Object>>();
+    	
+    	//Graph Processor only needs to iterate through String vertices
+    	for(String i : graph.getAllVertices()) { 
+    		DijkstraNode newNode = new DijkstraNode(null, i, 0, false);
+    		
+			PriorityQueue<DijkstraNode> priorityQ = new PriorityQueue<DijkstraNode>();
+			priorityQ.add(newNode);
+			
+			ArrayList<String> expandedNodes = new ArrayList<String>(); //keep track of the strings in the queue
+			while (!priorityQ.isEmpty()) {
+				DijkstraNode node = priorityQ.poll();
+				node.visited = true;
+				
+				for(String s : graph.getNeighbors(i)) {
+					if (!expandedNodes.contains(s)) {
+						expandedNodes.add(s);
+						DijkstraNode successor = new DijkstraNode(node, s, node.cost + 1, false);
+						ArrayList<String> shortestPath = new ArrayList<String>();
+						
+						//computing shortest path for these two nodes with strings i & s
+						while (successor != null) { 
+							shortestPath.add(successor.associatedString);
+							successor = successor.predecessor;
+						}
+						HashMap<String, Object> innerHash = new HashMap<String, Object>();
+						innerHash.put(s, shortestPath);
+						outerHash.put(i, innerHash); // store shortest path in hashmap
+					}
+				}
+				
+    		}
+    	}
+    	
     }
 }
