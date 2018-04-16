@@ -19,10 +19,20 @@ public class GraphProcessorTest {
 	
 	}
 	
+	@Test 
+	public void populateGraphShortestPath() {
+		
+		int testInt = graphPrc.populateGraph("shortestPathTest.txt");
+		assertEquals(3, testInt);
+	}
+	
 	@Test
 	public void getShortestPath() {
 		
-		graphPrc.populateGraph("shortestPath.txt");
+		graphPrc.populateGraph("shortestPathTest.txt");
+		graphPrc.shortestPathPrecomputation();
+		int shortestDistance = graphPrc.getShortestDistance("cat", "hath");
+		assertEquals(2, shortestDistance);
 		
 	}
 

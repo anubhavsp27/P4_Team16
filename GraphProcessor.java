@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -48,7 +49,7 @@ public class GraphProcessor {
     /**
      * HashMap which stores the shortest path from all combinations of words
      */
-    private HashMap<String, HashMap<String, ArrayList<String>>> shortestPathHash;
+    private Map<String, Map<String, ArrayList<String>>> shortestPathHash;
     /**
      * Constructor for this class. Initializes instances variables to set the starting state of the object
      */
@@ -207,35 +208,40 @@ public class GraphProcessor {
      */
     public void shortestPathPrecomputation() { 
     	//Nested HashMap to calculate shortest distances between all combinations
-    	shortestPathHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
+    	shortestPathHash = new HashMap<String, Map<String, ArrayList<String>>>();
     	
     	//Graph Processor only needs to iterate through String vertices
     	for(String i : graph.getAllVertices()) { 
-    		HashMap<String, ArrayList<String>> innerHash = new HashMap<String, ArrayList<String>>();
+    		Map<String, ArrayList<String>> innerHash = new HashMap<String, ArrayList<String>>();
     		DijkstraNode newNode = new DijkstraNode(null, i, 0, false);
     		
 			PriorityQueue<DijkstraNode> priorityQ = new PriorityQueue<DijkstraNode>();
 			priorityQ.add(newNode);
 			
-			ArrayList<String> expandedNodes = new ArrayList<String>(); //keep track of the strings in the queue
+			//keep track of the strings in the queue
+			ArrayList<String> expandedStringNodes = new ArrayList<String>(); 
 			while (!priorityQ.isEmpty()) {
+				//pop lowest cost node off of the stack
 				DijkstraNode node = priorityQ.poll();
 				node.visited = true;
 				
 				for(String s : graph.getNeighbors(i)) {
-					if (!expandedNodes.contains(s)) {
-						expandedNodes.add(s);
+					//check if node is already expanded, by reference
+					if (!expandedStringNodes.contains(s)) {
+						expandedStringNodes.add(s);
 						DijkstraNode successor = new DijkstraNode(node, s, node.cost + 1, false);
-						ArrayList<String> shortestPath = new ArrayList<String>();
-						shortestPath.add(i);
+						ArrayList<String> shortestPathList = new ArrayList<String>();
+						//add string to visted strings and associated dijkstra node to PQ
+						shortestPathList.add(i);
+						priorityQ.add(successor);
 						
 						//computing shortest path for these two nodes with strings i & s
 						while (successor != null) { 
-							shortestPath.add(successor.associatedString);
+							shortestPathList.add(successor.associatedString);
 							successor = successor.predecessor;
 						}
 						
-						innerHash.put(s, shortestPath);
+						innerHash.put(s, shortestPathList);
 						
 					}
 				}
