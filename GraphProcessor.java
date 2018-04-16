@@ -89,12 +89,15 @@ public class GraphProcessor {
         Iterable<String> vertecies = graph.getAllVertices();
         int size = 0;
         for (String vertex1 : vertecies) {
+            
             for (String vertex2 : vertecies) {
             	    if(WordProcessor.isAdjacent(vertex1, vertex2));
                     graph.addEdge(vertex1, vertex2);
             }
             size++;
         }
+        
+        
         
         return size;
     
@@ -133,9 +136,9 @@ public class GraphProcessor {
      * @return List<String> list of the words
      */
     public List<String> getShortestPath(String word1, String word2) {
-    	//access nested HashMap
-        ArrayList<String> shortestPath = new ArrayList<String>();
-        shortestPath = shortestPathHash.get(word1).get(word2);
+      	//access nested HashMap
+        ArrayList<String> shortestPath = new ArrayList<String>();  // *** This line isn't doing much
+        shortestPath = shortestPathHash.get(word1.toUpperCase()).get(word2.toUpperCase()); // *** shortestPathHash never initialized
         return shortestPath;
     }
     
@@ -157,14 +160,14 @@ public class GraphProcessor {
      * @return Integer distance
      */
     public Integer getShortestDistance(String word1, String word2) {
-    	//access nested HashMap
-    	int shortestDistance = 0;
-    	ArrayList<String> shortestPath = new ArrayList<String>();
-        shortestPath = shortestPathHash.get(word1).get(word2);
+        //access nested HashMap
+        int shortestDistance = 0;
+        
+        ArrayList<String> shortestPath = shortestPathHash.get(word1.toUpperCase()).get(word2.toUpperCase());
         shortestDistance = shortestPath.size() - 1;
         return shortestDistance;
     }
-    
+
     /**
      * Innner class for encapsulating data for each node in the graph, and 
      * making it comparable to use within a priority queue.
@@ -207,46 +210,50 @@ public class GraphProcessor {
      * Any shortest path algorithm can be used (Djikstra's or Floyd-Warshall recommended).
      */
     public void shortestPathPrecomputation() { 
-    	//Nested HashMap to calculate shortest distances between all combinations
-    	shortestPathHash = new HashMap<String, Map<String, ArrayList<String>>>();
-    	
-    	//Graph Processor only needs to iterate through String vertices
-    	for(String i : graph.getAllVertices()) { 
-    		Map<String, ArrayList<String>> innerHash = new HashMap<String, ArrayList<String>>();
-    		DijkstraNode newNode = new DijkstraNode(null, i, 0, false);
-    		
-			PriorityQueue<DijkstraNode> priorityQ = new PriorityQueue<DijkstraNode>();
-			priorityQ.add(newNode);
-			
-			//keep track of the strings in the queue
-			ArrayList<String> expandedStringNodes = new ArrayList<String>(); 
-			while (!priorityQ.isEmpty()) {
-				//pop lowest cost node off of the stack
-				DijkstraNode node = priorityQ.poll();
-				node.visited = true;
-				
-				for(String s : graph.getNeighbors(i)) {
-					//check if node is already expanded, by reference
-					if (!expandedStringNodes.contains(s)) {
-						expandedStringNodes.add(s);
-						DijkstraNode successor = new DijkstraNode(node, s, node.cost + 1, false);
-						ArrayList<String> shortestPathList = new ArrayList<String>();
-						//add string to visted strings and associated dijkstra node to PQ
-						shortestPathList.add(i);
-						priorityQ.add(successor);
-						
-						//computing shortest path for these two nodes with strings i & s
-						while (successor != null) { 
-							shortestPathList.add(successor.associatedString);
-							successor = successor.predecessor;
-						}
-						
-						innerHash.put(s, shortestPathList);
-						
-					}
-				}
-			}
-			shortestPathHash.put(i, innerHash); // store shortest path in hashmap
-    	}
+        //Nested HashMap to calculate shortest distances between all combinations
+        shortestPathHash = new HashMap<String, Map<String, ArrayList<String>>>();
+
+        //Graph Processor only needs to iterate through String vertices
+        for(String i : graph.getAllVertices()) { 
+            
+            //Setup
+            Map<String, ArrayList<String>> innerHash = new HashMap<String, ArrayList<String>>();
+            DijkstraNode newNode = new DijkstraNode(null, i, 0, false);
+
+            PriorityQueue<DijkstraNode> priorityQ = new PriorityQueue<DijkstraNode>();
+            priorityQ.add(newNode);
+
+            //keep track of the strings in the queue
+            ArrayList<String> expandedStringNodes = new ArrayList<String>(); 
+            while (!priorityQ.isEmpty()) {
+                
+                //pop lowest cost node out of the queue
+                DijkstraNode node = priorityQ.poll();
+                node.visited = true;
+
+                for(String s : graph.getNeighbors(i)) {
+                    //check if node is already expanded, by reference
+                    if (!expandedStringNodes.contains(s)) {
+                        
+                        expandedStringNodes.add(s);
+                        DijkstraNode successor = new DijkstraNode(node, s, node.cost + 1, false);
+                        ArrayList<String> shortestPathList = new ArrayList<String>();
+                        //add string to visted strings and associated dijkstra node to PQ
+                        shortestPathList.add(i);
+                        priorityQ.add(successor);
+
+                        //computing shortest path for these two nodes with strings i & s
+                        while (successor != null) { 
+                            shortestPathList.add(successor.associatedString);
+                            successor = successor.predecessor;
+                        }
+
+                        innerHash.put(s, shortestPathList);
+
+                    }
+                }
+            }
+            shortestPathHash.put(i, innerHash); // store shortest path in hashmap
+        }
     }
 }
