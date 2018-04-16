@@ -160,7 +160,7 @@ public class GraphProcessor {
     	int shortestDistance = 0;
     	ArrayList<String> shortestPath = new ArrayList<String>();
         shortestPath = shortestPathHash.get(word1).get(word2);
-        shortestDistance = shortestPath.size();
+        shortestDistance = shortestPath.size() - 1;
         return shortestDistance;
     }
     
@@ -227,6 +227,7 @@ public class GraphProcessor {
 						expandedNodes.add(s);
 						DijkstraNode successor = new DijkstraNode(node, s, node.cost + 1, false);
 						ArrayList<String> shortestPath = new ArrayList<String>();
+						shortestPath.add(i);
 						
 						//computing shortest path for these two nodes with strings i & s
 						while (successor != null) { 
