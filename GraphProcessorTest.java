@@ -7,6 +7,32 @@ import org.junit.BeforeClass;
 	import org.junit.Test;
 	import org.junit.*;
 	
+////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           Graph.java
+//Description:     This program implements and undirected and unweighted 
+//				   graph via a Vertex/Edge class combination.
+//		
+//Files:           Graph.java, WordProcessor.java, GraphProcessor.java
+//	
+//Course:          CS 400, Spring 2017
+//
+//Authors:          Chance Sanford, Mitchell Saulsberry, Anubhav Sanjeeva Prasad.
+//				   Savannah Olson
+//
+//Email:           csanford4@wisc.edu, saulsberry@wisc.edu, sanjeevapras@wisc.edu
+//				   seolson23@wisc.edu
+//
+//Lecturer's Name: Debra Deppler
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+//Idea for a Vertex/Edge class combination was taken from: 
+//   http://www.dreamincode.net/forums/
+//		topic/377473-graph-data-structure-tutorial/ 
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 public class GraphProcessorTest {
 	
 
