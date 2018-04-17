@@ -143,6 +143,22 @@ public class GraphProcessorTest {
                 assertEquals(expectedPathLength, actualPathLength);
         }
 
+@Test
+	public void test11_wordProcessorIsAjacentChangedLetter() {
+        WordProcessor wordPrc = new WordProcessor();
+        
+        boolean expected = true;
+        boolean actual = wordPrc.isAdjacent("at", "it");
+        
+        assertEquals(expected, actual);
 
+        actual = wordPrc.isAdjacent("act", "apt");
+        
+        assertEquals(expected, actual);
+
+        actual = wordPrc.isAdjacent("hop", "hoe");
+        
+        assertEquals(expected, actual);
+	}
 
 	}
