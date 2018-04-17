@@ -16,10 +16,10 @@ import java.util.Set;
 //Course:          CS 400, Spring 2017
 //
 //Authors:          Chance Sanford, Mitchell Saulsberry, Anubhav Sanjeeva Prasad.
-//				   Savannah Olsen
+//				   Savannah Olson
 //
 //Email:           csanford4@wisc.edu, saulsberry@wisc.edu, sanjeevapras@wisc.edu
-//				   seolsen23@wisc.edu
+//				   seolson23@wisc.edu
 //
 //Lecturer's Name: Debra Deppler
 //
