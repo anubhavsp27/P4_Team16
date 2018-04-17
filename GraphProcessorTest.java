@@ -25,12 +25,6 @@ import org.junit.BeforeClass;
 //
 //Lecturer's Name: Debra Deppler
 //
-///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
-//
-//Idea for a Vertex/Edge class combination was taken from: 
-//   http://www.dreamincode.net/forums/
-//		topic/377473-graph-data-structure-tutorial/ 
-//
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 public class GraphProcessorTest {
