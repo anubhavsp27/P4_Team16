@@ -163,6 +163,10 @@ public class GraphProcessor {
         //access nested HashMap
         int shortestDistance = 0;
         
+        if (word1.equalsIgnoreCase(word2)) {
+            return 0;
+        }
+	    
         ArrayList<String> shortestPath = shortestPathHash.get(word1.toUpperCase()).get(word2.toUpperCase());
         shortestDistance = shortestPath.size() - 1;
         return shortestDistance;
