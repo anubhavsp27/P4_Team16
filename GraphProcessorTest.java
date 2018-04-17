@@ -88,7 +88,7 @@ public class GraphProcessorTest {
 		}
 		
 		@Test
-		public void test04_shortestPathPrecomputationError() {
+		public void test05_shortestPathPrecomputationError() {
 			graphPrc.populateGraph("twentyWords.txt");
 			try {
 				graphPrc.shortestPathPrecomputation();
@@ -97,6 +97,32 @@ public class GraphProcessorTest {
 				fail();
 			}
 		}
+	
+	        @Test
+	        public void test06_pathFromNodeToItselfLength() {
+        
+                    graphPrc.populateGraph("shortestPathTest.txt");
+                    graphPrc.shortestPathPrecomputation();
+        
+                    int expectedPathLength = 0;
+                    int actualPathLength = graphPrc.getShortestDistance("cat", "cat");
+        
+                    assertEquals(expectedPathLength, actualPathLength);
+	    
+	        }
+	
+	        @Test
+	        public void test07_selectsShortestDistance() {
+
+        
+                    graphPrc.populateGraph("similarWords.txt");
+                    graphPrc.shortestPathPrecomputation();
+        
+                    int expectedPathLength = 7;
+                    int actualPathLength = graphPrc.getShortestDistance("on", "hat");
+        
+                    assertEquals(expectedPathLength, actualPathLength);
+	}
 
 	}
 
