@@ -23,6 +23,15 @@ import java.util.Set;
 //
 //Lecturer's Name: Debra Deppler
 //
+///////////////////////////////// KNOWN BUGS //////////////////////////////////
+//
+// We are having a bug in Graph Processor file where the shortestPathPrecomputation
+//    method will only generate paths of the form HAT -> CAT -> HAT or
+//    ON -> HAT -> ON
+// 
+//    Currently we are unsure what is causing this bug, other than the fact it
+//    is occurring in the shortestPathPrecomputation method
+//
 ///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
 //
 //Idea for a Vertex/Edge class combination was taken from: 
