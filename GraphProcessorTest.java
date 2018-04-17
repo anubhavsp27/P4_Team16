@@ -206,5 +206,44 @@ public class GraphProcessorTest {
         
         assertEquals(expected, actual);
 	}
+	
+			@Test
+		public void test12_wordProcessorisAdjacentRemoveLetter() {
+			String actual=null;
+			String expected=null;
+			
+			//Removing from the end
+			actual= ""+WordProcessor.isAdjacent("abcdx","abcd");
+			expected="true";
+			assertEquals(actual,expected);
+			
+			//Removing from the middle
+			actual=""+WordProcessor.isAdjacent("abzdx", "abdx");
+			expected="true";
+			assertEquals(actual,expected);
+			
+			//Removing from the beginning
+			actual=""+WordProcessor.isAdjacent("abzdx", "bzdx");
+			expected="true";
+			assertEquals(actual,expected);
+		}
+		
+		@Test
+		public void test13_wordProcessorisAdjacentNonAdjacent() {
+			
+			String actual=null;
+			String expected=null;
+			
+			//Random words
+			actual=""+WordProcessor.isAdjacent("hat", "on");
+			expected="false";
+			assertEquals(actual,expected);
+			
+			//Words differing by two letters
+			actual=""+WordProcessor.isAdjacent("abcdx", "abcdxef");
+			expected="false";
+			assertEquals(actual,expected);
+			
+		}
 
 	}
