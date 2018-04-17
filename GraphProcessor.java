@@ -11,6 +11,26 @@ import java.util.PriorityQueue;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           Graph.java
+//Description:     This program implements and undirected and unweighted 
+//				   graph via a Vertex/Edge class combination.
+//		
+//Files:           Graph.java, WordProcessor.java, GraphProcessor.java
+//	
+//Course:          CS 400, Spring 2017
+//
+//Authors:          Chance Sanford, Mitchell Saulsberry, Anubhav Sanjeeva Prasad.
+//				   Savannah Olson
+//
+//Email:           csanford4@wisc.edu, saulsberry@wisc.edu, sanjeevapras@wisc.edu
+//				   seolson23@wisc.edu
+//
+//Lecturer's Name: Debra Deppler
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 /**
  * This class adds additional functionality to the graph as a whole.
  * 
