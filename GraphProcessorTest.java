@@ -1,32 +1,15 @@
-	import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.BeforeClass;
-	import org.junit.Test;
-	import org.junit.*;
+import org.junit.Test;
+import org.junit.*;
 	
-////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
-//
-//Title:           Graph.java
-//Description:     This program implements and undirected and unweighted 
-//				   graph via a Vertex/Edge class combination.
-//		
-//Files:           Graph.java, WordProcessor.java, GraphProcessor.java
-//	
-//Course:          CS 400, Spring 2017
-//
-//Authors:          Chance Sanford, Mitchell Saulsberry, Anubhav Sanjeeva Prasad.
-//				   Savannah Olson
-//
-//Email:           csanford4@wisc.edu, saulsberry@wisc.edu, sanjeevapras@wisc.edu
-//				   seolson23@wisc.edu
-//
-//Lecturer's Name: Debra Deppler
-//
-/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
-
 public class GraphProcessorTest {
 	
 
@@ -97,33 +80,69 @@ public class GraphProcessorTest {
 				fail();
 			}
 		}
-	
-	        @Test
-	        public void test06_pathFromNodeToItselfLength() {
-        
-                    graphPrc.populateGraph("shortestPathTest.txt");
-                    graphPrc.shortestPathPrecomputation();
-        
-                    int expectedPathLength = 0;
-                    int actualPathLength = graphPrc.getShortestDistance("cat", "cat");
-        
-                    assertEquals(expectedPathLength, actualPathLength);
-	    
-	        }
-	
-	        @Test
-	        public void test07_selectsShortestDistance() {
+		
+		@Test
+		public void test06_getWordStreamTest() {
+			Stream a = null;
+			try {
+				a = WordProcessor.getWordStream("textWithBlanks.txt");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				fail();
+			}
+			
+			ArrayList<String> actualList = (ArrayList<String>) a.collect(Collectors.toList());
+			
+			ArrayList<String> expectedList = new ArrayList<String>();
+			
+			expectedList.add("cat");
+			expectedList.add("rat");
+			expectedList.add("hat");
+			expectedList.add("neat");
+			expectedList.add("wheat");
+			expectedList.add("kit");
+			
+			assertEquals(expectedList, actualList);
+		}
+		
+		
+		@Test
+		public void test07_isAdjacentTest() {
+			
+			boolean actual = WordProcessor.isAdjacent("on", "hone");
+			
+			assertEquals(false, actual);
+			
+			
+		}
+		
+        @Test
+        public void test08_pathFromNodeToItselfLength() {
+    
+                graphPrc.populateGraph("shortestPathTest.txt");
+                graphPrc.shortestPathPrecomputation();
+    
+                int expectedPathLength = 0;
+                int actualPathLength = graphPrc.getShortestDistance("cat", "cat");
+    
+                assertEquals(expectedPathLength, actualPathLength);
+    
+        }
 
-        
-                    graphPrc.populateGraph("similarWords.txt");
-                    graphPrc.shortestPathPrecomputation();
-        
-                    int expectedPathLength = 7;
-                    int actualPathLength = graphPrc.getShortestDistance("on", "hat");
-        
-                    assertEquals(expectedPathLength, actualPathLength);
+        @Test
+        public void test09_selectsShortestDistance() {
+
+    
+                graphPrc.populateGraph("similarWords.txt");
+                graphPrc.shortestPathPrecomputation();
+    
+                int expectedPathLength = 7;
+                int actualPathLength = graphPrc.getShortestDistance("on", "hat");
+    
+                assertEquals(expectedPathLength, actualPathLength);
+        }
+
+
+
 	}
-
-	}
-
-
