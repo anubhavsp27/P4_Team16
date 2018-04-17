@@ -1,3 +1,6 @@
 cat
+rat
 hat
-hath
+neat
+wheat
+kit
